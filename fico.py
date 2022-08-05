@@ -25,8 +25,8 @@ def cleanup_frame(frame):
 
 def read_totals(data_dir=DATA_DIR):
     """Read the total number of people of each race"""
-    frame = cleanup_frame(pd.DataFrame.from_csv(data_dir + FILES['overview']))
-    return {r: frame[r]['SSA'] for r in frame.columns}
+    frame = cleanup_frame(pd.read_csv(data_dir + FILES['overview']))
+    return {r: frame[r] for r in frame.columns}
 
 
 def convert_percentiles(idx):
@@ -60,8 +60,8 @@ def parse_data(data_dir=DATA_DIR, filenames=None):
     if filenames is None:
         filenames = [FILES['cdf_by_race'], FILES['performance_by_race']]
 
-    cdfs = cleanup_frame(pd.DataFrame.from_csv(data_dir + filenames[0]))
-    performance = 100 - cleanup_frame(pd.DataFrame.from_csv(data_dir + filenames[1]))
+    cdfs = cleanup_frame(pd.read_csv(data_dir + filenames[0], index_col='Score'))
+    performance = 100 - cleanup_frame(pd.read_csv(data_dir + filenames[1],index_col='Score'))
     return (cdfs / 100., performance / 100.)
 
 
